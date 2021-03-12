@@ -3,17 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@cluedin/ui": "3.3.0-next-02",
+    "@cluedin/ui": "3.3.0-alpha.403",
     "react": "^16.9.0"
   },
   "devDependencies": {
     "cpx": "^1.5.0",
-    "react-scripts": "3.4.2"
+    "react-scripts": "4.0.3"
   },
   "scripts": {
     "prepare": "node ./node_modules/@cluedin/ui/src/prepare",
     "start": "npm run prepare && react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts --max_old_space_size=6144 build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

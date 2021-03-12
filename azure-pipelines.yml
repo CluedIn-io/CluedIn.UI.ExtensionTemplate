@@ -1,0 +1,64 @@
+##########################################
+# See README.md on configuring the build #
+##########################################
+name: $(Date:yyyyMMdd)$(Rev:.rrr)
+
+trigger:
+  - master
+
+pr:
+  - master
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  majorVersion: 1
+  minorVersion: 0
+  ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+    prCounter: $[counter(variables['Build.SourceBranch'], 0)]
+    label: $[format('pr{0}.{1}', variables['System.PullRequest.PullRequestNumber'], variables['prCounter'])]
+    version: $[format('{0}.{1}-{2}', variables['majorVersion'], variables['minorVersion'], variables['label'])]
+  ${{ if eq(variables['Build.SourceBranchName'], 'master') }}:
+    patchVersion: $[counter(format('{0}.{1}', variables['majorVersion'], variables['minorVersion']), 0)]
+    version: $[format('{0}.{1}.{2}', variables['majorVersion'], variables['minorVersion'], variables['patchVersion'])]
+  dockerRegistry: $(docker.registry)
+  dockerRepository: $(docker.repository)
+  npmToken: $(npm.token)
+  environment: production
+
+steps:
+  # Set version info
+  - pwsh: Write-Output "##vso[build.updatebuildnumber]$(version)"
+    displayName: Set build version
+
+  # Set tags for the built image - include 'latest' if building master branch
+  - pwsh: |
+      $tags = @('$(version)')
+      if ('$(Build.SourceBranchName)' -eq 'master') {
+        $tags += @('latest')
+      }
+      $finalTags = [string]::Join('%0A', $tags)
+      Write-Host "##vso[task.setvariable variable=imageTags]$finalTags"
+    displayName: Generate image tags
+
+  # Build the image
+  - task: Docker@2
+    displayName: Build image
+    inputs:
+      command: build
+      repository: $(dockerRepository)
+      Dockerfile: $(Build.SourcesDirectory)/Dockerfile
+      buildContext: $(Build.SourcesDirectory)
+      arguments: --build-arg NPM_TOKEN=$(npmToken)
+      tags: $(imageTags)
+      addPipelineData: false
+
+  # Push the image
+  - task: Docker@2
+    displayName: Push image
+    inputs:
+      command: push
+      containerRegistry: $(dockerRegistry)
+      repository: $(dockerRepository)
+      tags: $(imageTags)

@@ -1,18 +1,20 @@
 import routes from './routes';
 
-export default {
-  pillar: 'extension',
-  name: 'extension-mainModule',
+const exampleModule = {
+  pillar: 'example-pillar',
+  name: 'example-module',
   displayName: 'Dashboard',
   path: '/dashboard',
   extendPillarDashboard: {
     actions: [
       {
         icon: 'report',
-        name: 'Main Module',
-        link: '/admin/extension/dashboard',
+        name: 'Example Module',
+        link: '/example-pillar/dashboard',
       },
     ],
   },
   routes,
 };
+
+export default exampleModule;
