@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dashboard } from '@cluedin/ui';
+import { Dashboard as DashboardComponent } from '@cluedin/ui';
 
 const allUsers = `
   query {
@@ -15,12 +15,8 @@ const allUsers = `
 
 const widgetCategories = [
   {
-    "displayName": "Sales Overview",
-    "code": "sales",
-  },
-  {
-    "displayName": "Marketing Overview",
-    "code": "marketing",
+    "displayName": "Users Overview",
+    "code": "users",
   },
 ];
 
@@ -34,17 +30,14 @@ const widgets = [{
     valuePath: 'search.totalResults',
     defaultValue: 0,
   },
-  // "to": {
-  //   pathname: '/admin/gn/partner',
-  // },
-  "category": "sales",
+  "category": "users",
 },];
 
-const DashboardDemo = ({
+const Dashboard = ({
   match,
 }) => {
   return (
-    <Dashboard
+    <DashboardComponent
       match={match}
       displayName="Dashboard"
       categories={widgetCategories}
@@ -53,4 +46,4 @@ const DashboardDemo = ({
   );
 };
 
-export default DashboardDemo;
+export default Dashboard;

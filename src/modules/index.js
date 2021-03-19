@@ -1,5 +1,3 @@
-import mainModule from './mainModule';
+import './entityTemplates';
 
-export default [
-  mainModule,
-];
+export { default as exampleModule } from './exampleModule';

@@ -1,17 +1,10 @@
-import UICore from '@cluedin/ui';
-import { Datamart } from 'uxi/Icons';
-import extensionModules from './modules';
+import { bootstrap } from '@cluedin/ui';
+import * as pillars from './pillars';
+import * as modules from './modules';
 
 const root = document.getElementById('app');
 
-UICore.bootstrap(root, {
-  pillars: [{
-    requiredAdmin: false,
-    hideFromMenu: false,
-    name: 'extension',
-    Icon: Datamart,
-    displayName: 'My extension',
-    path: '/admin/extension',
-  }],
-  modules: extensionModules,
+bootstrap(root, {
+  pillars: Object.values(pillars),
+  modules: Object.values(modules),
 });
