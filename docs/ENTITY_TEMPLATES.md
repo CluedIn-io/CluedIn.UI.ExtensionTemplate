@@ -101,6 +101,9 @@ As you can see the component gets passed the entity object as a prop so you can 
 
 As well as the entity object, many other props are passed to your widget. Check the other examples and set breakpoints or console logs to see exactly what data you have access to.
 
+#### Requesting extra data
+If you need data for your widget that isn't passed by default, [checkout how to pull cusomt data in](./CUSTOM_GQL_WIDGETS.md).
+
 ### Templates
 Templates are what bring your layout and widgets together. It's where you say what layout to use, and what widgets to put where in the layout. Templates must be exported from `src/modules/entityTemplates/templates/index.js` in order to be available.
 

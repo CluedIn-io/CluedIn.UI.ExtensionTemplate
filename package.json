@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@cluedin/ui": "3.3.0-alpha.403",
+    "@cluedin/ui": "3.3.0-alpha.405",
     "react": "^16.9.0"
   },
   "devDependencies": {
