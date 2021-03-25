@@ -9,6 +9,7 @@ const exampleTemplate = {
   },
   widgets: [
     { name: 'ExampleHeaderWidget', place: 'header' },
+    { name: 'ExampleGqlWidget', place: 'body' },
     { name: 'ExampleBodyWidget', place: 'body' },
     { name: 'ExampleBodyRightWidget', place: 'bodyRight' },
   ],
