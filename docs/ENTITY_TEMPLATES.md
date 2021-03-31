@@ -101,6 +101,7 @@ As you can see the component gets passed the entity object as a prop so you can 
 
 As well as the entity object, many other props are passed to your widget. Check the other examples and set breakpoints or console logs to see exactly what data you have access to.
 
+A number of widgets are defined in the framework and available for you to use. [Check out the list here.](./FRAMEWORK_WIDGETS).
 #### Requesting extra data
 If you need data for your widget that isn't passed by default, [checkout how to pull cusomt data in](./CUSTOM_GQL_WIDGETS.md).
 
@@ -131,6 +132,43 @@ The above example has a unique name and a displayName. The displayName is what y
 The template then describes the layout it would like to use, referencing the layout's `code` in the `name` property of the object.
 
 The template must define a widgets array. The objects in the array reference the widget to use by it's `name`. The object also has a `place` property which is a reference to the layout column `name` in which to place the widget.
+
+#### Passing parameters to a widget instance
+When you define a widget instance in your template, you can optionally have some props passed to the widget component. You do this by adding a `parameters` property to the widget instance. This is an object defined as a JSON string. The keys of the object are the prop names and values will be the values.
+
+For example, if we wanted to pass a `headderText` and `size` prop to the _ExampleHeaderWidget_, our template would look like this:
+```js
+const exampleTemplate = {
+  name: 'example template from extension',
+  displayName: 'Example Entity Template',
+  layout: {
+    name: 'ExampleOrganizationLayout',
+  },
+  widgets: [
+    {
+      name:'ExampleHeaderWidget',
+      place: 'header',
+      parameters: JSON.stringify({
+        headerText: 'My header text',
+        size: 'Big',
+      }),
+    },
+    { name: 'ExampleBodyWidget', place: 'body' },
+    { name: 'ExampleBodyRightWidget', place: 'bodyRight' },
+  ],
+};
+
+export default exampleTemplate;
+```
+
+Then the widget component could use these values:
+```jsx
+const ExampleHeaderWidgetComponent = ({ headerText, size }) => {
+  console.log(headerText); // My header text
+  console.log(size); // Big
+  return size === 'Big' ? <h1>{headerText}</h1> : <h2>{headerText}</h2>;
+}
+```
 
 ### What next?
 If you have a look at the example layouts, widgets and templates, along with how they appear on the page (from the steps above) you will be empowered to build your own entity templates!
